@@ -1,0 +1,12 @@
+<resources>
+
+    <style name="Widget.Theme.RikaiKyunNative.Activity" parent="">
+        <item name="android:background">?background</item>
+    </style>
+    <style name="Widget.Theme.RikaiKyunNative.MenuButton" parent="">
+        <item name="android:textColor">?colorPrimary</item>
+        <item name="android:backgroundTint">?background</item>
+        <item name="android:strokeColor">?colorPrimary</item>
+        <item name="android:strokeWidth">2</item>
+    </style>
+</resources>
