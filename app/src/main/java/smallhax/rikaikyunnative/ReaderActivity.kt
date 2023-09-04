@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.MotionEvent.ACTION_UP
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import com.google.android.material.color.MaterialColors
@@ -22,6 +23,7 @@ class ReaderActivity : AppCompatActivity() {
     private lateinit var textView: TextView
     private lateinit var dictionaryTextView: TextView
     private lateinit var scrollView: ScrollView
+    private lateinit var dictionaryPopup: FrameLayout
     private lateinit var dictionaryScrollView: ScrollView
     private lateinit var application: ExtendedApplication
     private lateinit var spannable: Spannable
@@ -45,6 +47,7 @@ class ReaderActivity : AppCompatActivity() {
         })
         scrollView = findViewById(R.id.scrollView)
 
+        dictionaryPopup = findViewById(R.id.dictionaryPupup)
         dictionaryTextView = findViewById(R.id.dictionaryTextView)
         dictionaryScrollView = findViewById(R.id.dictionaryScrollView)
     }
@@ -54,6 +57,8 @@ class ReaderActivity : AppCompatActivity() {
         if (event.action != ACTION_UP){
             return true
         }
+
+        dictionaryPopup.visibility = View.VISIBLE
 
         var textViewLocation = IntArray(2)
         textView.getLocationOnScreen(textViewLocation)
@@ -88,7 +93,7 @@ class ReaderActivity : AppCompatActivity() {
             val firstResult = result[0]
             //Log.e(TAG, firstResult.lookup)
             //Log.e(TAG, firstResult.entry)
-            val entries = result.joinToString("\n\n") { x -> "${x.entry.word} - ${x.entry.definition}" }
+            val entries = result.joinToString("\n\n") { x -> "${x.entry.word} ${if(x.entry.reading == null) "" else "[${x.entry.reading}]"} - ${x.entry.definition}" }
             dictionaryTextView.setText(entries)
             dictionaryScrollView.scrollY = 0
             select(i, i + firstResult.lookup.word.length)
@@ -104,7 +109,7 @@ class ReaderActivity : AppCompatActivity() {
 
     fun select(startPosition: Int, endPosition: Int){
         val elapsedTime = measureTimeMillis {
-            //unselect()
+            unselect(false)
             foregroundSelectionSpan = ForegroundColorSpan(
                 MaterialColors.getColor(
                     dictionaryTextView,
@@ -124,13 +129,13 @@ class ReaderActivity : AppCompatActivity() {
                 endPosition,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
-            textView.setText(spannable)
+            updateTextView()
         }
 
         Log.e(TAG, "Select time: ${elapsedTime}")
     }
 
-    fun unselect(){
+    fun unselect(shouldUpdateTextView: Boolean = true){
         if (foregroundSelectionSpan != null){
             spannable.removeSpan(foregroundSelectionSpan)
             foregroundSelectionSpan = null
@@ -139,6 +144,12 @@ class ReaderActivity : AppCompatActivity() {
             spannable.removeSpan(backgroundSelectionSpan)
             backgroundSelectionSpan = null
         }
+        if (shouldUpdateTextView){
+            updateTextView()
+        }
+    }
+
+    fun updateTextView(){
         textView.setText(spannable)
     }
 
