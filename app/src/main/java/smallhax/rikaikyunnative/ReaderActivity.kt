@@ -1,5 +1,6 @@
 package smallhax.rikaikyunnative
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Spannable
@@ -25,6 +26,7 @@ class ReaderActivity : AppCompatActivity() {
     private lateinit var scrollView: ScrollView
     private lateinit var dictionaryPopup: FrameLayout
     private lateinit var dictionaryScrollView: ScrollView
+    private lateinit var dictionaryCloseButton: FrameLayout
     private lateinit var application: ExtendedApplication
     private lateinit var spannable: Spannable
     private var foregroundSelectionSpan: ForegroundColorSpan? = null
@@ -50,6 +52,10 @@ class ReaderActivity : AppCompatActivity() {
         dictionaryPopup = findViewById(R.id.dictionaryPupup)
         dictionaryTextView = findViewById(R.id.dictionaryTextView)
         dictionaryScrollView = findViewById(R.id.dictionaryScrollView)
+        dictionaryCloseButton = findViewById(R.id.dictionaryCloseButton)
+        dictionaryCloseButton.setOnClickListener {
+            dictionaryPopup.visibility = View.GONE
+        }
     }
 
     private fun onTextViewTouch(view: View, event: MotionEvent): Boolean {

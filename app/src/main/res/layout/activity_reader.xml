@@ -22,22 +22,50 @@
     <FrameLayout
         android:id="@+id/dictionaryPupup"
         android:layout_width="match_parent"
-        android:layout_height="250sp"
+        android:layout_height="250dp"
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="@drawable/border"
         android:visibility="gone"
         >
-        <ScrollView
-            android:id="@+id/dictionaryScrollView"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-            <TextView
-                android:id="@+id/dictionaryTextView"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:text=""
-                android:textColor="?colorPrimary"/>
-        </ScrollView>
+                android:layout_height="25dp"
+                android:background="@color/light_blue_600">
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                </FrameLayout>
+                <FrameLayout
+                    android:id="@+id/dictionaryCloseButton"
+                    android:layout_width="25dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/border">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="✖"/>
+                </FrameLayout>
+            </LinearLayout>
+            <ScrollView
+                android:id="@+id/dictionaryScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+                <TextView
+                    android:id="@+id/dictionaryTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:text=""
+                    android:textColor="?colorPrimary"/>
+            </ScrollView>
+        </LinearLayout>
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
